@@ -32,7 +32,7 @@ class RedColorPicker {
     // Bubble
     const bubble = document.createElement('div');
     bubble.id = 'bubble';
-    bubble.style.display = 'none';
+    bubble.classList.add('hidden');
 
     // Append  all
     appendTo.append(canvas);
@@ -72,11 +72,11 @@ class RedColorPicker {
     const bubble = document.querySelector('#bubble');
 
     canvas.addEventListener('mouseenter', () => {
-      bubble.style.display = 'block';
+      bubble.classList.remove('hidden');
     });
 
     canvas.addEventListener('mouseleave', () => {
-      bubble.style.display = 'none';
+      bubble.classList.add('hidden');
     });
 
     canvas.addEventListener('mousemove', (e) => {

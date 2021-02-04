@@ -27,9 +27,17 @@
   border: 2px solid #fff;
   border-radius: 50%;
   z-index: 1;
-  left: -20px;
-  top: -20px;
+  left: -40px;
+  top: -40px;
   box-shadow: 0 0 10px 2px #cccccc;
+  transition: opacity 600ms, visibility 600ms;
+  visibility: visible;
+  opacity: 1;
+}
+
+#bubble.hidden {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .mb-1 {
