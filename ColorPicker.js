@@ -1,56 +1,4 @@
-class RedColorPicker {
-  constructor(options = { width: 101, height: 101, addBubble: false }) {
-    this.width = options.width;
-    this.height = options.height;
-    this.startingColor = 'hsl(0, 50%, 50%)';
-    this.addBubble = options.addBubble;
-  }
-
-  addPicker(appendTo) {
-    // Create preview
-    const preview = document.createElement('div');
-    preview.id = 'color-picker-preview';
-    preview.classList.add('mb-1');
-
-    // Create form
-    const form = document.createElement('form');
-    const hslInput = document.createElement('input');
-    hslInput.id = 'hsl-input';
-    hslInput.setAttribute('type', 'text');
-    form.append(hslInput);
-
-    // Create container
-    const colorPickerConatainer = document.createElement('div');
-    colorPickerConatainer.id = 'color-picker-container';
-
-    // Set canvas id annd classes
-    const canvas = document.createElement('canvas');
-    canvas.width = this.width;
-    canvas.height = this.height;
-    canvas.id = 'color-picker';
-    canvas.classList.add('mb-1');
-
-    // Append  all
-    appendTo.append(canvas);
-    appendTo.append(preview);
-    appendTo.append(form);
-
-    // Bubble
-    if (this.addBubble) {
-      const bubble = document.createElement('div');
-      bubble.id = 'bubble';
-      bubble.classList.add('hidden');
-      appendTo.prepend(bubble);
-    }
-
-    // Starting color
-    preview.style.backgroundColor = this.startingColor;
-    hslInput.value = this.startingColor;
-
-    this._paintCanvas(canvas);
-    this._attachEvents(appendTo, canvas, preview, hslInput);
-  }
-
+class ColorPickerHelpers {
   _paintCanvas(canvas) {
     // Color picker on any sized canvas
     const sRange = canvas.width;
@@ -73,10 +21,8 @@ class RedColorPicker {
     }
   }
 
-  _attachEvents(appendTo, canvas, preview, hslInput) {
-    const bubble = document.querySelector('#bubble');
-
-    if (this.addBubble) {
+  _attachEvents(canvas, preview, hslInput, bubble) {
+    if (bubble) {
       canvas.addEventListener('mouseenter', () => {
         bubble.classList.remove('hidden');
       });
@@ -117,5 +63,62 @@ class RedColorPicker {
       l: precY,
     };
     return hsl;
+  }
+}
+
+class RedColorPicker extends ColorPickerHelpers {
+  constructor({ width = 101, height = 101, addBubble = false }) {
+    super();
+    this.width = width;
+    this.height = height;
+    this.startingColor = 'hsl(0, 50%, 50%)';
+    this.addBubble = addBubble;
+
+    // Create preview
+    this.preview = document.createElement('div');
+    this.preview.classList.add('color-picker-preview', 'mb-1');
+
+    // Create form
+    this.form = document.createElement('form');
+    this.hslInput = document.createElement('input');
+    this.hslInput.classList.add('hsl-input');
+    this.hslInput.setAttribute('type', 'text');
+    this.form.append(this.hslInput);
+
+    // Create container
+    this.colorPickerConatainer = document.createElement('div');
+    this.colorPickerConatainer.classList.add('color-picker-container');
+
+    // Set canvas id annd classes
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    this.canvas.classList.add('color-picker', 'mb-1');
+
+    // Bubble
+    this.bubble = null;
+    if (this.addBubble) {
+      this.bubble = document.createElement('div');
+      this.bubble.classList.add('bubble', 'hidden');
+    }
+  }
+
+  addPicker(appendTo) {
+    // Append  all
+    appendTo.append(this.canvas);
+    appendTo.append(this.preview);
+    appendTo.append(this.form);
+
+    // Bubble
+    if (this.addBubble) {
+      appendTo.prepend(this.bubble);
+    }
+
+    // Starting color
+    this.preview.style.backgroundColor = this.startingColor;
+    this.hslInput.value = this.startingColor;
+
+    this._paintCanvas(this.canvas);
+    this._attachEvents(this.canvas, this.preview, this.hslInput, this.bubble);
   }
 }

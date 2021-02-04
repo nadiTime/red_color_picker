@@ -6,11 +6,11 @@
   height: 100%;
 }
 
-#color-picker {
+.color-picker {
   border: 1px solid black;
 }
 
-#color-picker-preview {
+.color-picker-preview {
   width: 101px;
   height: 30px;
   border: 1px solid black;
@@ -20,7 +20,7 @@
   position: relative;
 }
 
-#bubble {
+.bubble {
   width: 40px;
   height: 40px;
   position: absolute;
@@ -35,7 +35,7 @@
   opacity: 1;
 }
 
-#bubble.hidden {
+.bubble.hidden {
   visibility: hidden;
   opacity: 0;
 }
